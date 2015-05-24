@@ -202,6 +202,7 @@
                             state.touchDown = true;
                         });
                         $this.on("touchmove", function (event) {
+                            event.preventDefault();
                             var relativeX = event.originalEvent.targetTouches[0].pageX - this.offsetLeft;
                             var relativeY = event.originalEvent.targetTouches[0].pageY - this.offsetTop;
                             processTouchMove(state, relativeX, relativeY);
