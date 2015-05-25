@@ -184,16 +184,12 @@
                             }
                         });
                         $this.on("mouseup", function (event) {
-                            if (state.mouseDown == true) {
+                            var d = new Date();
+                            if (state.mouseDown == true && (state.touchEnd + 501 < d.getTime())) {
                                 state.mouseDown = false;
                                 processTouchEnd(state);
                             }
-                        });
-                        $(document).on("mouseup", function (event) {
-                            if (state.mouseDown == true) {
-                                state.mouseDown = false;
-                                processTouchEnd(state);
-                            }
+                            clearSelection(state);
                         });
                         $this.on("touchstart", function (event) {
                             var relativeX = event.originalEvent.targetTouches[0].pageX - this.offsetLeft;
@@ -208,6 +204,8 @@
                             processTouchMove(state, relativeX, relativeY);
                         });
                         $this.on("touchend", function (event) {
+                            var d = new Date();
+                            state.touchEnd = d.getTime();
                             processTouchEnd(state);
                         });
                     }
