@@ -48,7 +48,6 @@ $(document).ready(function() {
         autoClear: true,
         onFinish: function(value) {
             value = value.filter(onlyUnique);
-            console.log(value);
             var sum = 0;
             for(var i = 0; i < value.length; i++) {
                 sum += Math.pow(2, 5 - value[i]);
@@ -56,7 +55,6 @@ $(document).ready(function() {
             if(a[sum]) {
                 $('#transcribe').val($('#transcribe').val() + '' + a[sum]);
             } else {
-                console.log('unknown character');
             }
         }
     });
