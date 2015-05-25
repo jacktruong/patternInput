@@ -137,6 +137,7 @@
                         //Create a new canvas for Path drawing
                         state.canvas = $('<canvas width="' + state.width + '" height="' + state.height + '" style="position:absolute;left:0px;top:0px;"></canvas>');
                         $this.append(state.canvas);
+                        state.touchEnd = 0;
                         var ctx = state.canvas[0].getContext("2d");
                         ctx.strokeStyle = state.pathColor;
                         ctx.lineWidth = state.pathSize;
@@ -171,10 +172,13 @@
                         }
 
                         $this.on("mousedown", function (event) {
-                            var relativeX = event.pageX - this.offsetLeft;
-                            var relativeY = event.pageY - this.offsetTop;
-                            state.mouseDown = true;
-                            processTouchStart(state, relativeX, relativeY);
+                            var d = new Date();
+                            if(state.touchEnd + 501 < d.getTime()) {
+                                var relativeX = event.pageX - this.offsetLeft;
+                                var relativeY = event.pageY - this.offsetTop;
+                                state.mouseDown = true;
+                                processTouchStart(state, relativeX, relativeY);
+                            }
                         });
                         $this.on("mousemove", function (event) {
                             if (state.mouseDown == true) {
@@ -184,12 +188,10 @@
                             }
                         });
                         $this.on("mouseup", function (event) {
-                            var d = new Date();
-                            if (state.mouseDown == true && (state.touchEnd + 501 < d.getTime())) {
+                            if (state.mouseDown == true) {
                                 state.mouseDown = false;
                                 processTouchEnd(state);
                             }
-                            clearSelection(state);
                         });
                         $this.on("touchstart", function (event) {
                             var relativeX = event.originalEvent.targetTouches[0].pageX - this.offsetLeft;
